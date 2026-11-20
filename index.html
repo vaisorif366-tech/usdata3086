@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkDesk USA</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f4f6fa;color:#172033}
+.demo{background:#fff3cd;color:#765500;text-align:center;padding:8px;font-size:11px;font-weight:bold}
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#101e38,#193d69)}
+.login-box{background:white;width:100%;max-width:400px;padding:35px;border-radius:16px}
+.brand{text-align:center;font-size:27px;font-weight:800;color:#18365e;margin-bottom:8px}
+.brand span{color:#16a36a}
+.sub{text-align:center;color:#8290a3;font-size:13px;margin-bottom:25px}
+input{width:100%;padding:14px;margin:8px 0;border:1px solid #dce2eb;border-radius:8px;font-size:14px}
+button{border:0;cursor:pointer;border-radius:8px;font-weight:bold}
+.primary{background:#1766c2;color:white;width:100%;padding:14px;margin-top:12px}
+.switch{text-align:center;margin-top:20px;color:#1766c2;cursor:pointer;font-size:13px}
+.error{color:red;text-align:center;font-size:13px;margin-top:10px}
+#app{display:none}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:245px;background:#132541;color:white;padding:25px 16px;z-index:5}
+.logo{font-size:24px;font-weight:bold;padding:10px 12px 35px}
+.logo span{color:#28c78a}
+.menu-title{font-size:10px;color:#8496b0;padding:12px}
+.nav{padding:14px 13px;border-radius:8px;color:#c3cede;margin:4px 0;cursor:pointer;font-size:14px}
+.nav:hover,.nav.active{background:#25436a;color:white}
+.sidebar-footer{position:absolute;bottom:25px;left:20px;color:#8c9bb0;font-size:11px}
+.main{margin-left:245px}
+.topbar{height:70px;background:white;border-bottom:1px solid #e7eaf0;display:flex;align-items:center;justify-content:space-between;padding:0 30px}
+.topbar small{color:#8390a4}
+.content{padding:30px;max-width:1250px;margin:auto}
+.page-title{font-size:24px;font-weight:750}
+.subtitle{color:#8995a6;font-size:13px;margin-top:7px;margin-bottom:25px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:17px;margin-bottom:22px}
+.stat{background:white;padding:22px;border:1px solid #edf0f4;border-radius:12px}
+.stat-label{font-size:12px;color:#8290a3}
+.stat-value{font-size:25px;font-weight:bold;margin-top:12px;color:#172c49}
+.green{color:#159b65!important}
+.blue{color:#2474ce}
+.orange{color:#e99a35}
+.red{color:#dc4141}
+.panel{background:white;border:1px solid #e9edf2;border-radius:12px;padding:22px;margin-bottom:20px}
+.panel h3{font-size:16px;margin-bottom:17px}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.job{border:1px solid #edf0f3;border-radius:9px;padding:17px;margin-bottom:12px;display:flex;justify-content:space-between;gap:12px}
+.job h4{font-size:14px;margin-bottom:7px}
+.job p{font-size:11px;color:#8994a5}
+.job-price{font-weight:bold;color:#159b65}
+.status{display:inline-block;padding:5px 9px;background:#fff3da;color:#a56c11;border-radius:20px;font-size:10px;margin-top:8px}
+.notice{background:#eff6ff;color:#24558e;padding:15px;border-radius:9px;font-size:12px;line-height:21px}
+.cash-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin:20px 0}
+.cash-icon{height:48px;width:48px;border-radius:50%;background:#00d632;color:white;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:bold}
+.cash-name{font-size:22px;font-weight:bold}
+.withdraw-note{background:#effaf3;color:#16834e;text-align:center;padding:17px;border-radius:9px;font-size:13px;line-height:22px;margin:20px 0}
+.withdraw-button{width:100%;padding:15px;background:#142b49;color:white;font-size:14px}
+.back{background:#e9edf3;color:#34445c;padding:12px;width:100%;margin-top:12px}
+.not-found{display:none;text-align:center;color:#e33434;font-weight:bold;margin-top:20px}
+.section{display:none}
+.section.active{display:block}
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table td,.table th{padding:14px;border-bottom:1px solid #edf0f4;text-align:left}
+.table th{color:#8390a4}
+.empty{text-align:center;color:#9ba5b3;padding:30px;font-size:13px}
+.footer{text-align:center;color:#9aa3b1;font-size:11px;padding:20px}
+@media(max-width:850px){
+.sidebar{width:65px;padding:15px 7px}
+.logo{font-size:17px;padding:10px 4px 30px}
+.logo span,.menu-title,.sidebar-footer{display:none}
+.nav{text-align:center;font-size:0;padding:16px 2px}
+.nav b{font-size:17px}
+.main{margin-left:65px}
+.stats{grid-template-columns:repeat(2,1fr)}
+.grid2{grid-template-columns:1fr}
+.content{padding:18px}
+.topbar{padding:0 15px}
+}
+@media(max-width:450px){
+.stat{padding:14px}
+.stat-value{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo">
+DEMO PLATFORM • SIMULATED JOBS AND BALANCES • NO REAL PAYMENTS
+</div>
+
+<div id="loginPage" class="login-page">
+<div class="login-box">
+<div class="brand">WorkDesk<span> USA</span></div>
+<div class="sub">Your workspace for online freelance tasks</div>
+
+<div id="loginForm">
+<h3>Welcome Back</h3>
+<input id="loginName" placeholder="Full Name">
+<input id="loginPhone" placeholder="Phone Number">
+<input id="loginPassword" type="password" placeholder="Password">
+<button class="primary" onclick="login()">Sign In</button>
+<div class="switch" onclick="toggleForm()">Create a new account</div>
+</div>
+
+<div id="registerForm" style="display:none">
+<h3>Create Account</h3>
+<input id="regName" placeholder="Full Name">
+<input id="regPhone" placeholder="Phone Number">
+<input id="regPassword" type="password" placeholder="Create Password">
+<button class="primary" onclick="register()">Create Account</button>
+<div class="switch" onclick="toggleForm()">Already have an account? Sign In</div>
+</div>
+<div class="error" id="error"></div>
+</div>
+</div>
+
+<div id="app">
+<aside class="sidebar">
+<div class="logo">WorkDesk<span> USA</span></div>
+<div class="menu-title">WORKSPACE</div>
+<div class="nav active" onclick="openSection('dashboard',this)"><b>▦</b> Dashboard</div>
+<div class="nav" onclick="openSection('jobs',this)"><b>▤</b> Data Entry Jobs</div>
+<div class="nav" onclick="openSection('earnings',this)"><b>$</b> My Earnings</div>
+<div class="menu-title">ACCOUNT</div>
+<div class="nav" onclick="openSection('withdraw',this)"><b>⇧</b> Withdraw</div>
+<div class="nav" onclick="openSection('profile',this)"><b>♙</b> My Profile</div>
+<div class="nav" onclick="logout()"><b>↪</b> Logout</div>
+<div class="sidebar-footer">DEMO VERSION 1.0<br>© WorkDesk USA</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<div><b>Freelancer Workspace</b><br><small>Online Work Dashboard</small></div>
+<div>👤 <span id="topName"></span></div>
+</header>
+
+<div class="content">
+<div id="dashboard" class="section active">
+<div class="page-title">Dashboard</div>
+<div class="subtitle">Welcome back, <span id="welcomeName"></span>!</div>
+<div class="stats">
+<div class="stat"><div class="stat-label">Available Balance</div><div class="stat-value green" id="balance1">$0.00</div></div>
+<div class="stat"><div class="stat-label">Total Earnings</div><div class="stat-value" id="totalEarnings">$0.00</div></div>
+<div class="stat"><div class="stat-label">Completed Tasks</div><div class="stat-value">0</div></div>
+<div class="stat"><div class="stat-label">Pending Tasks</div><div class="stat-value">0</div></div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+<h3>Recent Data Entry Jobs</h3>
+<div class="empty">No completed tasks yet.</div>
+</div>
+<div class="panel">
+<h3>Withdrawal Method</h3>
+<div class="cash-logo"><div class="cash-icon">$</div><div class="cash-name">Cash App</div></div>
+<div class="notice">Cash App ছাড়া Dollar তোলা যাবে না।<br>Demo withdrawal method.</div>
+<button class="withdraw-button" onclick="openSection('withdraw',null)">WITHDRAW</button>
+</div>
+</div>
+</div>
+
+<div id="jobs" class="section">
+<div class="page-title">Data Entry Jobs</div>
+<div class="subtitle">Explore sample data entry assignments.</div>
+<div class="panel">
+<div class="job"><div><h4>Basic Data Entry</h4><p>Sample spreadsheet entry · Easy</p><span class="status">DEMO TASK</span></div><div class="job-price">$5.00</div></div>
+<div class="job"><div><h4>Product Information Entry</h4><p>Sample product listing · Medium</p><span class="status">DEMO TASK</span></div><div class="job-price">$10.00</div></div>
+<div class="job"><div><h4>PDF to Excel Conversion</h4><p>Sample document conversion · Medium</p><span class="status">DEMO TASK</span></div><div class="job-price">$15.00</div></div>
+<div class="notice">These are illustrative demo tasks only. No real employer or paid work is connected.</div>
+</div>
+</div>
+
+<div id="earnings" class="section">
+<div class="page-title">My Earnings</div>
+<div class="subtitle">Your demo earnings overview.</div>
+<div class="panel">
+<h3>Available Balance</h3>
+<div class="stat-value green" id="balance2">$0.00</div>
+</div>
+<div class="panel">
+<h3>Transaction History</h3>
+<table class="table">
+<thead><tr><th>DATE</th><th>DESCRIPTION</th><th>AMOUNT</th></tr></thead>
+<tbody id="history"><tr><td colspan="3" class="empty">No transactions found.</td></tr></tbody>
+</table>
+</div>
+</div>
+
+<div id="withdraw" class="section">
+<div class="page-title">Withdraw Funds</div>
+<div class="subtitle">Manage your demo withdrawal method.</div>
+<div class="panel" style="max-width:550px;margin:auto">
+<div class="cash-logo"><div class="cash-icon">$</div><div class="cash-name">Cash App</div></div>
+<div class="withdraw-note">Cash App ছাড়া Dollar তোলা যাবে না।<br>Cash App is the displayed demo withdrawal method.</div>
+<h3>Available Balance: <span id="balance3" class="green">$0.00</span></h3>
+<button class="withdraw-button" onclick="showCashForm()">ADD CASH APP</button>
+<div id="cashForm" style="display:none;margin-top:22px">
+<h3>Cash App Details</h3>
+<input id="cashDetails" placeholder="Demo Cash App ID / $Cashtag">
+<button class="primary" onclick="submitCash()">SUBMIT DETAILS</button>
+<div class="not-found" id="notFound">NOT FOUND<br><small>Demo verification failed. No payment was processed.</small></div>
+</div>
+</div>
+</div>
+
+<div id="profile" class="section">
+<div class="page-title">My Profile</div>
+<div class="subtitle">Your demo account information.</div>
+<div class="panel" style="max-width:550px">
+<h3>Account Information</h3>
+<p style="margin:15px 0">Full Name: <b id="profileName"></b></p>
+<p style="margin:15px 0">Phone Number: <b id="profilePhone"></b></p>
+<p style="margin:15px 0">Account Status: <span class="green">Demo Account</span></p>
+</div>
+</div>
+
+<div class="footer">WorkDesk USA © 2026 | Independent Demo Platform</div>
+</div>
+</main>
+</div>
+
+<script>
+// ডেমো অ্যাকাউন্টের প্রাথমিক ব্যালেন্স
+const INITIAL_BALANCES = {
+    "01711111111": 50.00,
+    "01722222222": 25.00,
+    "01733333333": 100.00
+};
+
+// নতুন অ্যাকাউন্টের ডেমো ব্যালেন্স
+const DEFAULT_BALANCE = 50.00;
+
+// Local demo user database
+let users = JSON.parse(localStorage.getItem("wdUsers") || "{}");
+
+// পুরোনো সব অ্যাকাউন্টের ডেমো ব্যালেন্স $50 করা হচ্ছে
+Object.keys(users).forEach(phone => {
+    users[phone].balance = 50.00;
+});
+
+let currentPhone = localStorage.getItem("wdCurrentUser") || null;
+
+function saveUsers(){
+    localStorage.setItem("wdUsers", JSON.stringify(users));
+}
+
+function getBalance(phone){
+    return Number(users[phone]?.balance ?? 0);
+}
+
+function setBalance(phone, amount){
+    if(!users[phone]) return;
+    amount = Number(amount);
+    if(!Number.isFinite(amount) || amount < 0){
+        alert("Invalid demo balance.");
+        return;
+    }
+    users[phone].balance = amount;
+    saveUsers();
+    if(currentPhone === phone) updateBalance();
+}
+
+function updateBalance(){
+    if(!currentPhone || !users[currentPhone]) return;
+    let formatted = "$" + getBalance(currentPhone).toFixed(2);
+    document.getElementById("balance1").innerText = formatted;
+    document.getElementById("balance2").innerText = formatted;
+    document.getElementById("balance3").innerText = formatted;
+    document.getElementById("totalEarnings").innerText = formatted;
+}
+
+function toggleForm(){
+    let a = document.getElementById("loginForm");
+    let b = document.getElementById("registerForm");
+    a.style.display = a.style.display === "none" ? "block" : "none";
+    b.style.display = b.style.display === "none" ? "block" : "none";
+    document.getElementById("error").innerText = "";
+}
+
+function register(){
+    let name = document.getElementById("regName").value.trim();
+    let phone = document.getElementById("regPhone").value.trim();
+    let password = document.getElementById("regPassword").value;
+
+    if(!name || !phone || !password){
+        showError("Please fill all fields.");
+        return;
+    }
+    if(password.length < 6){
+        showError("Password must contain at least 6 characters.");
+        return;
+    }
+    if(users[phone]){
+        showError("This phone number is already registered.");
+        return;
+    }
+
+    users[phone] = {
+        name: name,
+        password: password,
+        balance: DEFAULT_BALANCE
+    };
+    saveUsers();
+    currentPhone = phone;
+    localStorage.setItem("wdCurrentUser", phone);
+    startApp();
+}
+
+function login(){
+    let name = document.getElementById("loginName").value.trim();
+    let phone = document.getElementById("loginPhone").value.trim();
+    let password = document.getElementById("loginPassword").value;
+
+    if(!name || !phone || !password){
+        showError("Please complete all fields.");
+        return;
+    }
+    let account = users[phone];
+    if(!account){
+        showError("Account not found. Please register first.");
+        return;
+    }
+    if(account.name !== name || account.password !== password){
+        showError("Incorrect account information.");
+        return;
+    }
+    currentPhone = phone;
+    localStorage.setItem("wdCurrentUser", phone);
+    startApp();
+}
+
+function showError(message){
+    document.getElementById("error").innerText = message;
+}
+
+function startApp(){
+    if(!currentPhone || !users[currentPhone]) return;
+    let user = users[currentPhone];
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    document.getElementById("topName").innerText = user.name;
+    document.getElementById("welcomeName").innerText = user.name;
+    document.getElementById("profileName").innerText = user.name;
+    document.getElementById("profilePhone").innerText = currentPhone;
+    updateBalance();
+}
+
+function openSection(id, element){
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
+    if(element) element.classList.add("active");
+
+    if(id === "withdraw"){
+        document.getElementById("cashForm").style.display = "none";
+        document.getElementById("notFound").style.display = "none";
+        document.getElementById("cashDetails").value =
+            localStorage.getItem("wdCash_" + currentPhone) || "";
+    }
+    updateBalance();
+}
+
+function showCashForm(){
+    document.getElementById("cashForm").style.display = "block";
+}
+
+function submitCash(){
+    let details = document.getElementById("cashDetails").value.trim();
+    if(!details){
+        alert("Please enter demo details.");
+        return;
+    }
+    localStorage.setItem("wdCash_" + currentPhone, details);
+    document.getElementById("notFound").style.display = "block";
+}
+
+function logout(){
+    if(!confirm("Are you sure you want to logout?")) return;
+    currentPhone = null;
+    localStorage.removeItem("wdCurrentUser");
+    document.getElementById("app").style.display = "none";
+    document.getElementById("loginPage").style.display = "flex";
+    document.getElementById("loginName").value = "";
+    document.getElementById("loginPhone").value = "";
+    document.getElementById("loginPassword").value = "";
+}
+
+// পেজ চালু হলে পুরোনো অ্যাকাউন্টগুলোর ডেমো ব্যালেন্স সেভ হবে
+saveUsers();
+
+if(currentPhone && users[currentPhone]){
+    startApp();
+}
+</script>
+</body>
+</html>
